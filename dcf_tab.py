@@ -44,23 +44,23 @@ def render_dcf_tab():
             growth_rate_6=st.session_state["user_growth_rate_yr_6_onwards"]
         )
 
-    df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
-    st.dataframe(df_fcf.style.format({
-        "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
-        "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
-    }))
+        df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
+        st.dataframe(df_fcf.style.format({
+            "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
+            "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
+        }))
 
-    final_fcf = fcf_data[-1][-2]
-    terminal_growth = st.session_state["user_growth_rate_yr_6_onwards"]
-    interest_pct = st.session_state["interest_pct"]
-    forecast_years = min(st.session_state["forecast_years"], 20)
-    shares = st.session_state["shares_outstanding"]
-
-    terminal_value = (final_fcf * (1 + terminal_growth / 100)) / ((interest_pct / 100) - (terminal_growth / 100))
-    pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
-    total_pv_fcf = sum(row[-1] for row in fcf_data[1:])
-    enterprise_value = total_pv_fcf + pv_terminal
-    equity_value = enterprise_value
-    fair_value_per_share = equity_value / shares if shares else 0
-
-    st.metric("Fair Value per Share", f"₹{fair_value_per_share:,.2f}")
+        final_fcf = fcf_data[-1][-2]
+        terminal_growth = st.session_state["user_growth_rate_yr_6_onwards"]
+        interest_pct = st.session_state["interest_pct"]
+        forecast_years = min(st.session_state["forecast_years"], 20)
+        shares = st.session_state["shares_outstanding"]
+    
+        terminal_value = (final_fcf * (1 + terminal_growth / 100)) / ((interest_pct / 100) - (terminal_growth / 100))
+        pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
+        total_pv_fcf = sum(row[-1] for row in fcf_data[1:])
+        enterprise_value = total_pv_fcf + pv_terminal
+        equity_value = enterprise_value
+        fair_value_per_share = equity_value / shares if shares else 0
+    
+        st.metric("Fair Value per Share", f"₹{fair_value_per_share:,.2f}")
