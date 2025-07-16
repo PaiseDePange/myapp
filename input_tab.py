@@ -3,6 +3,8 @@ import pandas as pd
 import openpyxl
 from file_loader import extract_table
 
+
+
 def render_input_tab():
     st.header("📥 Inputs")
     uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx"])
@@ -28,3 +30,6 @@ def render_input_tab():
         st.session_state["quarterly"] = extract_table(df_all, "Quarters", 1, 11)
         st.session_state["meta"] = extract_table(df_all, "META", 0, 2)
         st.session_state["data_imported"] = True
+
+assumptions = build_assumptions_from_data()
+st.session_state["initial_assumptions"] = assumptions
