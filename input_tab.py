@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import openpyxl
 from file_loader import extract_table
+from assumption_builder import build_assumptions_from_data
 
 
 
