@@ -27,18 +27,18 @@ def render_dcf_tab():
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.session_state["ebit_margin"] = st.number_input("EBIT Margin (%)", key="ebit_margin", value=st.session_state["ebit_margin"], step=0.1)
-            st.session_state["depreciation_pct"] = st.number_input("Depreciation (% of Revenue)", key="depreciation_pct", value=st.session_state["depreciation_pct"], step=0.1)
-            st.session_state["tax_rate"] = st.number_input("Tax Rate (% of EBIT)", key="tax_rate", value=st.session_state["tax_rate"], step=0.1)
+            st.number_input("EBIT Margin (%)", value=st.session_state.get("ebit_margin", 20.0), key="ebit_margin", step=0.1)
+            st.number_input("Depreciation (% of Revenue)", value=st.session_state.get("depreciation_pct", 5.0), key="depreciation_pct", step=0.1)
+            st.number_input("Tax Rate (% of EBIT)", value=st.session_state.get("tax_rate", 25.0), key="tax_rate", step=0.1)
         with col2:
-            st.session_state["capex_pct"] = st.number_input("CapEx (% of Revenue)", key="capex_pct", value=st.session_state["capex_pct"], step=0.1)
-            st.session_state["wc_change_pct"] = st.number_input("Change in WC (% of Revenue)", key="wc_change_pct", value=st.session_state["wc_change_pct"], step=0.1)
-            st.session_state["interest_pct"] = st.number_input("WACC (%)", key="interest_pct", value=st.session_state["interest_pct"], step=0.1)
+            st.number_input("CapEx (% of Revenue)", value=st.session_state.get("capex_pct", 2.0), key="capex_pct", step=0.1)
+            st.number_input("Change in WC (% of Revenue)", value=st.session_state.get("wc_change_pct", 2.0), key="wc_change_pct", step=0.1)
+            st.number_input("WACC (%)", value=st.session_state.get("interest_pct", 10.0), key="interest_pct", step=0.1)
         with col3:
-            st.session_state["forecast_years"] = st.number_input("Forecast Years", key="forecast_years", min_value=1, max_value=30, value=st.session_state["forecast_years"])
-            st.session_state["user_growth_rate_yr_1_2"] = st.number_input("Growth Rate Y1-2 (%)", key="user_growth_rate_yr_1_2", value=st.session_state["user_growth_rate_yr_1_2"], step=0.1)
-            st.session_state["user_growth_rate_yr_3_4_5"] = st.number_input("Growth Rate Y3-5 (%)", key="user_growth_rate_yr_3_4_5", value=st.session_state["user_growth_rate_yr_3_4_5"], step=0.1)
-            st.session_state["user_growth_rate_yr_6_onwards"] = st.number_input("Growth Rate Y6+ (%)", key="user_growth_rate_yr_6_onwards", value=st.session_state["user_growth_rate_yr_6_onwards"], step=0.1)
+            st.number_input("Forecast Years", value=st.session_state.get("forecast_years", 20), key="forecast_years", min_value=1, max_value=30)
+            st.number_input("Growth Rate Y1-2 (%)", value=st.session_state.get("user_growth_rate_yr_1_2", 10.0), key="user_growth_rate_yr_1_2", step=0.1)
+            st.number_input("Growth Rate Y3-5 (%)", value=st.session_state.get("user_growth_rate_yr_3_4_5", 10.0), key="user_growth_rate_yr_3_4_5", step=0.1)
+            st.number_input("Growth Rate Y6+ (%)", value=st.session_state.get("user_growth_rate_yr_6_onwards", 4.0), key="user_growth_rate_yr_6_onwards", step=0.1)
 
         if st.button("🔄 Recalculate DCF"):
             fcf_data = calculate_dcf(
