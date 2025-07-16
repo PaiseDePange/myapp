@@ -12,8 +12,8 @@ def render_dcf_tab():
     revenue_row = df.loc["Sales"].dropna()
     base_revenue = revenue_row.values[-1]
 
-    with st.expander("📋 Assumptions", expanded=True):
-    if st.button("🔁 Reset to Default"):
+    with st.expander("📋 Assumptions", expanded=True):  # properly indented block start
+            if st.button("🔁 Reset to Default"):
         st.session_state["ebit_margin"] = 20.0
         st.session_state["depreciation_pct"] = 5.0
         st.session_state["tax_rate"] = 25.0
@@ -25,7 +25,7 @@ def render_dcf_tab():
         st.session_state["user_growth_rate_yr_3_4_5"] = 10.0
         st.session_state["user_growth_rate_yr_6_onwards"] = 4.0
 
-    col1, col2, col3 = st.columns(3)
+            col1, col2, col3 = st.columns(3)
     with col1:
         st.number_input("EBIT Margin (%)", key="ebit_margin", value=st.session_state.get("ebit_margin", 0.0), step=0.1)
         st.number_input("Depreciation (% of Revenue)", key="depreciation_pct", value=st.session_state.get("depreciation_pct", 0.0), step=0.1)
@@ -40,7 +40,7 @@ def render_dcf_tab():
         st.number_input("Growth Rate Y3-5 (%)", key="user_growth_rate_yr_3_4_5", value=st.session_state.get("user_growth_rate_yr_3_4_5", 0.0), step=0.1)
         st.number_input("Growth Rate Y6+ (%)", key="user_growth_rate_yr_6_onwards", value=st.session_state.get("user_growth_rate_yr_6_onwards", 0.0), step=0.1)
 
-    if st.button("🔄 Recalculate DCF"):
+            if st.button("🔄 Recalculate DCF"):
     fcf_data = calculate_dcf(
         base_revenue=base_revenue,
         forecast_years=st.session_state["forecast_years"],
