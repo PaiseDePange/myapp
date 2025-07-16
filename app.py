@@ -12,7 +12,7 @@ tabs = st.tabs(["📥 Inputs", "💰 DCF Valuation", "📈 EPS Projection", "�
 with tabs[0]:
     render_input_tab()
 
-with tabs[1]:
+#with tabs[1]:
     #render_dcf_tab()
 
 # EPS and Data Checks tabs can be added below
