@@ -2,6 +2,7 @@ import streamlit as st
 from input_tab import render_input_tab
 from dcf_tab import render_dcf_tab
 from data_checks_tab import render_data_checks_tab
+from assumption_builder import build_assumptions_from_data
 
 
 st.set_page_config(page_title="Smart Investing App", layout="wide")
@@ -13,6 +14,10 @@ tabs = st.tabs(["📥 Inputs", "💰 DCF Valuation", "📈 EPS Projection", "�
 
 with tabs[0]:
     render_input_tab()
+
+
+if st.session_state.get("data_imported"):
+    build_assumptions_from_data()
 
 with tabs[1]:
     render_dcf_tab()
