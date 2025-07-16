@@ -16,3 +16,5 @@ with tabs[0]:
     #render_dcf_tab()
 
 # EPS and Data Checks tabs can be added below
+with tabs[3]:
+    render_data_checks_tab()
