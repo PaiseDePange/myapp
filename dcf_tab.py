@@ -12,16 +12,18 @@ def render_dcf_tab():
     revenue_row = df.loc["Sales"].dropna()
     base_revenue = revenue_row.values[-1]
 
-    st.subheader("📋 Assumptions")
-    st.write(f"**Base Revenue:** {base_revenue:,.2f}")
-    st.write(f"**EBIT Margin (%):** {st.session_state['ebit_margin']}")
-    st.write(f"**Tax Rate (% of EBIT):** {st.session_state['tax_rate']}")
-    st.write(f"**Depreciation (% of Revenue):** {st.session_state['depreciation_pct']}")
-    st.write(f"**CapEx (% of Revenue):** {st.session_state['capex_pct']}")
-    st.write(f"**Change in WC (% of Revenue):** {st.session_state['wc_change_pct']}")
-    st.write(f"**WACC (%):** {st.session_state['interest_pct']}")
-    st.write(f"**Forecast Years:** {st.session_state['forecast_years']}")
-    st.write(f"**Growth Rates:** Y1-2: {st.session_state['user_growth_rate_yr_1_2']}%, Y3-5: {st.session_state['user_growth_rate_yr_3_4_5']}%, Y6+: {st.session_state['user_growth_rate_yr_6_onwards']}%")
+    with st.expander("📋 Assumptions", expanded=True):
+        st.write(f"**Base Revenue:** {base_revenue:,.2f}")
+        st.write(f"**EBIT Margin (%):** {st.session_state.get('ebit_margin', 'N/A')}")
+        st.write(f"**Tax Rate (% of EBIT):** {st.session_state.get('tax_rate', 'N/A')}")
+        st.write(f"**Depreciation (% of Revenue):** {st.session_state.get('depreciation_pct', 'N/A')}")
+        st.write(f"**CapEx (% of Revenue):** {st.session_state.get('capex_pct', 'N/A')}")
+        st.write(f"**Change in WC (% of Revenue):** {st.session_state.get('wc_change_pct', 'N/A')}")
+        st.write(f"**WACC (%):** {st.session_state.get('interest_pct', 'N/A')}")
+        st.write(f"**Forecast Years:** {st.session_state.get('forecast_years', 'N/A')}")
+        st.write(f"**Growth Rates:** Y1-2: {st.session_state.get('user_growth_rate_yr_1_2', 'N/A')}%, "
+                 f"Y3-5: {st.session_state.get('user_growth_rate_yr_3_4_5', 'N/A')}%, "
+                 f"Y6+: {st.session_state.get('user_growth_rate_yr_6_onwards', 'N/A')}%")
 
     fcf_data = calculate_dcf(
         base_revenue=base_revenue,
