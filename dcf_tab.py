@@ -51,6 +51,10 @@ def render_dcf_tab():
             growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=l_growth_1_2, step=0.1)
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
             growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
+            shares = st.number_input("Shares Outstanding (Cr)", value=st.session_state.get("shares_outstanding", 0.0), step=0.01)("Forecast Years", value=l_forecast_years, min_value=1, max_value=30)
+            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=l_growth_1_2, step=0.1)
+            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
+            growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
 
         if st.button("🔄 Recalculate DCF"):
             # Store latest inputs into session state
@@ -73,7 +77,7 @@ def render_dcf_tab():
                 interest_pct=st.session_state["interest_pct"],
                 wc_change_pct=st.session_state["wc_change_pct"],
                 tax_rate=st.session_state["tax_rate"],
-                shares=st.session_state["shares_outstanding"],
+                shares=shares,
                 growth_rate_1_2=st.session_state["user_growth_rate_yr_1_2"],
                 growth_rate_3_4_5=st.session_state["user_growth_rate_yr_3_4_5"],
                 growth_rate_6=st.session_state["user_growth_rate_yr_6_onwards"]
@@ -90,7 +94,7 @@ def render_dcf_tab():
             terminal_growth = st.session_state["user_growth_rate_yr_6_onwards"]
             interest_pct = st.session_state["interest_pct"]
             forecast_years = min(st.session_state["forecast_years"], 20)
-            shares = st.session_state["shares_outstanding"]
+            # shares already defined as local variable above
 
             terminal_value = (final_fcf * (1 + terminal_growth / 100)) / ((interest_pct / 100) - (terminal_growth / 100))
             pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
