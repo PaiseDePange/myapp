@@ -36,16 +36,15 @@ def build_assumptions_from_data():
         outstanding_shares = round(share_outstanding_row[-1]/10000000, 2)
     except:
         outstanding_shares = 0
-
-    # Set defaults to session state
-    st.session_state["ebit_margin"] = calculated_ebit_margin
-    st.session_state["depreciation_pct"] = calculated_depreciation_rate
-    st.session_state["tax_rate"] = calculated_tax_rate
-    st.session_state["shares_outstanding"] = outstanding_shares
-    st.session_state["user_growth_rate_yr_1_2"] = 10.0
-    st.session_state["user_growth_rate_yr_3_4_5"] = 10.0
-    st.session_state["user_growth_rate_yr_6_onwards"] = 4.0
-    st.session_state["forecast_years"] = 20
-    st.session_state["interest_pct"] = 10.0
-    st.session_state["wc_change_pct"] = 2.0
-    st.session_state["capex_pct"] = 2.0
+    return {
+        "ebit_margin": calculated_ebit_margin,
+        "depreciation_pct": calculated_depreciation_rate,
+        "tax_rate": calculated_tax_rate,
+        "capex_pct": 2.0,
+        "wc_change_pct": 2.0,
+        "interest_pct": 10.0,
+        "forecast_years": 20,
+        "user_growth_rate_yr_1_2": 10.0,
+        "user_growth_rate_yr_3_4_5": 10.0,
+        "user_growth_rate_yr_6_onwards": 4.0
+    }
