@@ -13,29 +13,29 @@ def render_dcf_tab():
     base_revenue = revenue_row.values[-1]
 
     with st.expander("📋 Assumptions", expanded=True):
-        # Load assumptions from session state into local variables
-        l_ebit_margin = st.session_state.get("ebit_margin", 20.0)
-        l_depreciation_pct = st.session_state.get("depreciation_pct", 5.0)
-        l_tax_rate = st.session_state.get("tax_rate", 25.0)
-        l_capex_pct = st.session_state.get("capex_pct", 2.0)
-        l_wc_change_pct = st.session_state.get("wc_change_pct", 2.0)
-        l_interest_pct = st.session_state.get("interest_pct", 10.0)
-        l_forecast_years = st.session_state.get("forecast_years", 20)
-        l_growth_1_2 = st.session_state.get("user_growth_rate_yr_1_2", 10.0)
-        l_growth_3_5 = st.session_state.get("user_growth_rate_yr_3_4_5", 10.0)
-        l_growth_6 = st.session_state.get("user_growth_rate_yr_6_onwards", 4.0)
+        # Load assumptions from initial assumptions (not session_state)
+        defaults = st.session_state.get("initial_assumptions", {})
+        l_ebit_margin = defaults.get("ebit_margin", 20.0)
+        l_depreciation_pct = defaults.get("depreciation_pct", 5.0)
+        l_tax_rate = defaults.get("tax_rate", 25.0)
+        l_capex_pct = defaults.get("capex_pct", 2.0)
+        l_wc_change_pct = defaults.get("wc_change_pct", 2.0)
+        l_interest_pct = defaults.get("interest_pct", 10.0)
+        l_forecast_years = defaults.get("forecast_years", 20)
+        l_growth_1_2 = defaults.get("user_growth_rate_yr_1_2", 10.0)
+        l_growth_3_5 = defaults.get("user_growth_rate_yr_3_4_5", 10.0)
+        l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         if st.button("🔁 Reset to Default"):
-  
-            st.session_state["ebit_margin"] = l_ebit_margin
-            st.session_state["depreciation_pct"] = l_depreciation_pct
-            st.session_state["tax_rate"] = l_tax_rate
-            st.session_state["capex_pct"] = l_capex_pct
-            st.session_state["wc_change_pct"] = l_wc_change_pct
-            st.session_state["interest_pct"] = l_interest_pct
-            st.session_state["forecast_years"] = l_forecast_years
-            st.session_state["user_growth_rate_yr_1_2"] = l_growth_1_2
-            st.session_state["user_growth_rate_yr_3_4_5"] = l_growth_3_5
-            st.session_state["user_growth_rate_yr_6_onwards"] = l_growth_6
+            ebit_margin = l_ebit_margin
+            depreciation_pct = l_depreciation_pct
+            tax_rate = l_tax_rate
+            capex_pct = l_capex_pct
+            wc_change_pct = l_wc_change_pct
+            interest_pct = l_interest_pct
+            forecast_years = l_forecast_years
+            growth_1_2 = l_growth_1_2
+            growth_3_5 = l_growth_3_5
+            growth_6 = l_growth_6
 
         col1, col2, col3 = st.columns(3)
         with col1:
