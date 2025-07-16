@@ -1,5 +1,5 @@
 import pandas as pd
-
+import streamlit as st
 def build_assumptions_from_data():
     if not st.session_state.get("data_imported"):
         return
