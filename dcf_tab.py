@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 from calculations import calculate_dcf, dcf_fair_value
+from assumption_builder import build_assumptions_from_data
+
 
 def render_dcf_tab():
     st.header("💰 DCF Valuation")
