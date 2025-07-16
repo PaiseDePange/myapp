@@ -38,7 +38,7 @@ def render_dcf_tab():
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            ebit_margin = st.number_input("EBIT Margin (%)", value=ebit_margin, key="ebit_margin", step=0.1)
+            ebit_margin = st.number_input("EBIT Margin (%)", value=ebit_margin,  step=0.1)
             depreciation_pct = st.number_input("Depreciation (% of Revenue)", value=depreciation_pct, key="depreciation_pct", step=0.1)
             tax_rate = st.number_input("Tax Rate (% of EBIT)", value=tax_rate, key="tax_rate", step=0.1)
         with col2:
