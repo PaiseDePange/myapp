@@ -6,7 +6,6 @@ from assumption_builder import build_assumptions_from_data
 if "initial_assumptions" not in st.session_state:
     st.error("Initial assumptions not found. Please upload data again from the Inputs tab.")
     return
-defaults = st.session_state["initial_assumptions"]
 
 def render_dcf_tab():
     st.header("💰 DCF Valuation")
@@ -31,6 +30,7 @@ def render_dcf_tab():
         l_growth_3_5 = defaults.get("user_growth_rate_yr_3_4_5", 10.0)
         l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         if st.button("🔁 Reset to Default"):
+            defaults = st.session_state["initial_assumptions"]
             ebit_margin = l_ebit_margin
             depreciation_pct = l_depreciation_pct
             tax_rate = l_tax_rate
