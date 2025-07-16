@@ -38,18 +38,18 @@ def render_dcf_tab():
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            ebit_margin = st.number_input("EBIT Margin (%)", value=ebit_margin,  step=0.1)
-            depreciation_pct = st.number_input("Depreciation (% of Revenue)", value=depreciation_pct, key="depreciation_pct", step=0.1)
-            tax_rate = st.number_input("Tax Rate (% of EBIT)", value=tax_rate, key="tax_rate", step=0.1)
+            ebit_margin = st.number_input("EBIT Margin (%)", value=ebit_margin, step=0.1)
+            depreciation_pct = st.number_input("Depreciation (% of Revenue)", value=depreciation_pct, step=0.1)
+            tax_rate = st.number_input("Tax Rate (% of EBIT)", value=tax_rate, step=0.1)
         with col2:
-            capex_pct = st.number_input("CapEx (% of Revenue)", value=capex_pct, key="capex_pct", step=0.1)
-            wc_change_pct = st.number_input("Change in WC (% of Revenue)", value=wc_change_pct, key="wc_change_pct", step=0.1)
-            interest_pct = st.number_input("WACC (%)", value=interest_pct, key="interest_pct", step=0.1)
+            capex_pct = st.number_input("CapEx (% of Revenue)", value=capex_pct, step=0.1)
+            wc_change_pct = st.number_input("Change in WC (% of Revenue)", value=wc_change_pct, step=0.1)
+            interest_pct = st.number_input("WACC (%)", value=interest_pct, step=0.1)
         with col3:
-            forecast_years = st.number_input("Forecast Years", value=forecast_years, key="forecast_years", min_value=1, max_value=30)
-            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=growth_1_2, key="user_growth_rate_yr_1_2", step=0.1)
-            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=growth_3_5, key="user_growth_rate_yr_3_4_5", step=0.1)
-            growth_6 = st.number_input("Growth Rate Y6+ (%)", value=growth_6, key="user_growth_rate_yr_6_onwards", step=0.1)
+            forecast_years = st.number_input("Forecast Years", value=forecast_years, min_value=1, max_value=30)
+            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=growth_1_2, step=0.1)
+            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=growth_3_5, step=0.1)
+            growth_6 = st.number_input("Growth Rate Y6+ (%)", value=growth_6, step=0.1)
 
         if st.button("🔄 Recalculate DCF"):
             fcf_data = calculate_dcf(
@@ -68,10 +68,11 @@ def render_dcf_tab():
             )
 
             df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
-            st.dataframe(df_fcf.style.format({
-                "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
-                "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
-            }))
+            with st.expander("📊 Free Cash Flow Table"):
+                st.dataframe(df_fcf.style.format({
+                    "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
+                    "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
+                }))
 
             final_fcf = fcf_data[-1][-2]
             terminal_growth = st.session_state["user_growth_rate_yr_6_onwards"]
