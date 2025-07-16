@@ -13,6 +13,6 @@ with tabs[0]:
     render_input_tab()
 
 with tabs[1]:
-    render_dcf_tab()
+    #render_dcf_tab()
 
 # EPS and Data Checks tabs can be added below
