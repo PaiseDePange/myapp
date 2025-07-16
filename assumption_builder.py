@@ -31,7 +31,6 @@ def build_assumptions_from_data():
         calculated_ebit_margin = 0
         calculated_tax_rate = 0
         calculated_depreciation_rate = 0
-
     try:
         outstanding_shares = round(share_outstanding_row[-1]/10000000, 2)
     except:
