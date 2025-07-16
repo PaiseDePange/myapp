@@ -28,20 +28,21 @@ def render_dcf_tab():
             st.number_input("Growth Rate Y3-5 (%)", key="user_growth_rate_yr_3_4_5", value=st.session_state.get("user_growth_rate_yr_3_4_5", 0.0), step=0.1)
             st.number_input("Growth Rate Y6+ (%)", key="user_growth_rate_yr_6_onwards", value=st.session_state.get("user_growth_rate_yr_6_onwards", 0.0), step=0.1)
 
-    fcf_data = calculate_dcf(
-        base_revenue=base_revenue,
-        forecast_years=st.session_state["forecast_years"],
-        ebit_margin=st.session_state["ebit_margin"],
-        depreciation_pct=st.session_state["depreciation_pct"],
-        capex_pct=st.session_state["capex_pct"],
-        interest_pct=st.session_state["interest_pct"],
-        wc_change_pct=st.session_state["wc_change_pct"],
-        tax_rate=st.session_state["tax_rate"],
-        shares=st.session_state["shares_outstanding"],
-        growth_rate_1_2=st.session_state["user_growth_rate_yr_1_2"],
-        growth_rate_3_4_5=st.session_state["user_growth_rate_yr_3_4_5"],
-        growth_rate_6=st.session_state["user_growth_rate_yr_6_onwards"]
-    )
+    if st.button("🔄 Recalculate DCF"):
+        fcf_data = calculate_dcf(
+            base_revenue=base_revenue,
+            forecast_years=st.session_state["forecast_years"],
+            ebit_margin=st.session_state["ebit_margin"],
+            depreciation_pct=st.session_state["depreciation_pct"],
+            capex_pct=st.session_state["capex_pct"],
+            interest_pct=st.session_state["interest_pct"],
+            wc_change_pct=st.session_state["wc_change_pct"],
+            tax_rate=st.session_state["tax_rate"],
+            shares=st.session_state["shares_outstanding"],
+            growth_rate_1_2=st.session_state["user_growth_rate_yr_1_2"],
+            growth_rate_3_4_5=st.session_state["user_growth_rate_yr_3_4_5"],
+            growth_rate_6=st.session_state["user_growth_rate_yr_6_onwards"]
+        )
 
     df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
     st.dataframe(df_fcf.style.format({
