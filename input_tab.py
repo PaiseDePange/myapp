@@ -31,5 +31,5 @@ def render_input_tab():
         st.session_state["meta"] = extract_table(df_all, "META", 0, 2)
         st.session_state["data_imported"] = True
 
-    assumptions = build_assumptions_from_data()
-    st.session_state["initial_assumptions"] = assumptions
+        assumptions = build_assumptions_from_data()
+        st.session_state["initial_assumptions"] = assumptions
