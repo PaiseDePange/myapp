@@ -1,6 +1,8 @@
 import streamlit as st
 from input_tab import render_input_tab
 from dcf_tab import render_dcf_tab
+from data_checks_tab import render_data_checks_tab
+
 
 st.set_page_config(page_title="Smart Investing App", layout="wide")
 
