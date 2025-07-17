@@ -50,6 +50,7 @@ def render_dcf_tab():
             ebit_margin = st.number_input("EBIT Margin (%)", value=l_ebit_margin, step=0.1)
             depreciation_pct = st.number_input("Depreciation (% of Revenue)", value=l_depreciation_pct, step=0.1)
             tax_rate = st.number_input("Tax Rate (% of EBIT)", value=l_tax_rate, step=0.1)
+            shares = st.number_input("Shares Outstanding (Cr)", value=l_shares, step=0.01)
         with col2:
             capex_pct = st.number_input("CapEx (% of Revenue)", value=l_capex_pct, step=0.1)
             wc_change_pct = st.number_input("Change in WC (% of Revenue)", value=l_wc_change_pct, step=0.1)
@@ -59,8 +60,7 @@ def render_dcf_tab():
             growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=l_growth_1_2, step=0.1)
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
             growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
-            shares = st.number_input("Shares Outstanding (Cr)", value=l_shares, step=0.01)
-
+            
     if st.button("🔄 Recalculate DCF"):
         st.session_state["ebit_margin"] = ebit_margin
         st.session_state["depreciation_pct"] = depreciation_pct
