@@ -41,9 +41,10 @@ def build_assumptions_from_data():
         "tax_rate": calculated_tax_rate,
         "capex_pct": 2.0,
         "wc_change_pct": 2.0,
-        "interest_pct": 10.0,
-        "forecast_years": 20,
-        "user_growth_rate_yr_1_2": 10.0,
+        "interest_pct": 11.0,
+        "forecast_years": 30,
+        "user_growth_rate_yr_1_2": 15.0,
         "user_growth_rate_yr_3_4_5": 10.0,
         "user_growth_rate_yr_6_onwards": 4.0
+        "outstanding_shares":outstanding_shares
     }
