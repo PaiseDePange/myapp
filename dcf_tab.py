@@ -96,12 +96,32 @@ def render_dcf_tab():
                 "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
             }))
 
-        final_fcf = fcf_data[forecast_years][-2]
+        final_fcf = fcf_data[-1][-2]
         terminal_value = (final_fcf * (1 + growth_6 / 100)) / ((interest_pct / 100) - (growth_6 / 100))
-        pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
+        pv_terminal = terminal_value / ((1 + interest_pct / 100) ** (len(fcf_data) - 1))
         total_pv_fcf = sum(row[-1] for row in fcf_data[1:])
         enterprise_value = total_pv_fcf + pv_terminal
         equity_value = enterprise_value
         fair_value_per_share = equity_value / shares if shares else 0
 
         st.metric("Fair Value per Share", f"₹{fair_value_per_share:,.2f}")
+
+        with st.expander("📘 How Fair Value is Calculated"):
+            st.markdown(f"""
+            **Fair Value per Share Calculation**
+            
+            1. **FCF Projection**: Projected Free Cash Flows for {forecast_years} years.
+            2. **Terminal Value**:
+            \[ TV = FCF × (1 + g) / (r - g) \]
+            Where:
+              - FCF = ₹{final_fcf:,.2f}
+              - g = {growth_6:.2f}% (Terminal Growth)
+              - r = {interest_pct:.2f}% (WACC)
+              - Terminal Value = ₹{terminal_value:,.2f}
+              - Discounted Terminal Value = ₹{pv_terminal:,.2f}
+            3. **Enterprise Value = PV of FCFs + PV of Terminal Value**  
+               = ₹{total_pv_fcf:,.2f} + ₹{pv_terminal:,.2f} = ₹{enterprise_value:,.2f}
+            4. **Equity Value = Enterprise Value** (assuming no debt/cash adjustment)
+            5. **Fair Value per Share = Equity Value / Shares Outstanding ({shares:.2f} Cr)**
+               = ₹{fair_value_per_share:,.2f} per share
+            """)
