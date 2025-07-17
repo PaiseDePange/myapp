@@ -17,6 +17,7 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
             revenue *= (1 + growth_rate_x / 100)
         else:
             revenue *= (1 + growth_rate_y / 100)
+
         ebit = revenue * (ebit_margin / 100)
         tax = ebit * (tax_rate / 100)
         dep = revenue * (depreciation_pct / 100)
@@ -24,6 +25,10 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
         wc = revenue * (wc_change_pct / 100)
         fcf = ebit - tax + dep - capex - wc
         pv_fcf = fcf / ((1 + interest_pct / 100) ** year)
+
+        fcf_data.append([
+            f"Year {year}", revenue, ebit, tax, ebit - tax, dep, capex, wc, fcf, pv_fcf
+        ])
         total_pv_fcf += pv_fcf
         if year <= x_years:
             phase1_pv += pv_fcf
@@ -35,7 +40,7 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
     ev = total_pv_fcf + pv_terminal    
     fv_per_share = ev / shares if shares else 0
     terminal_weight = pv_terminal / ev * 100 if ev else 0
-    return fv_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal
+    return fcf_data, fv_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal
 
 
 def calculate_terminal_value(fcf, g, r, n):
