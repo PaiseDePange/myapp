@@ -109,6 +109,16 @@ def render_dcf_tab():
             meta_df.columns = ["Label", "Value"]
         current_price = float(meta_df.set_index("Label").loc["Current Price", "Value"])
         render_final_verdict(fair_value=fv, current_price=current_price)
+        st.caption("""
+        💡 We determine the valuation status by comparing the calculated fair value with the current market price:
+        - 🟢 **Undervalued** if fair value is more than 15% higher than the current price
+        - ⚪ **Fairly Valued** if within ±15% of current price
+        - 🔴 **Overvalued** if fair value is more than 15% below the current price
+
+        📢 **Disclaimer:** Stock investment decisions are subject to market risks. Please do your own research and consult a SEBI-registered Research Analyst before making any investment decisions. This valuation is purely based on the uploaded financials and user-defined assumptions. Real-world performance can differ significantly. 
+
+        However, for your assistance, a detailed scenario and sensitivity analysis is provided below.
+        """)
 
         with st.expander("📘 How Fair Value is Calculated"):
             fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
