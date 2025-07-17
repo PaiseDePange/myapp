@@ -33,34 +33,34 @@ def render_dcf_tab():
         l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         l_shares = defaults.get("shares_outstanding", 0.0)
         if st.button("🔁 Reset to Default"):
-            ebit_margin = l_ebit_margin
-            depreciation_pct = l_depreciation_pct
-            tax_rate = l_tax_rate
-            capex_pct = l_capex_pct
-            wc_change_pct = l_wc_change_pct
-            interest_pct = l_interest_pct
-            forecast_years = l_forecast_years
-            growth_1_2 = l_growth_1_2
-            growth_3_5 = l_growth_3_5
-            growth_6 = l_growth_6
-            shares = l_shares
+            st.session_state["ebit_margin"] = l_ebit_margin
+            st.session_state["depreciation_pct"] = l_depreciation_pct
+            st.session_state["tax_rate"] = l_tax_rate
+            st.session_state["capex_pct"] = l_capex_pct
+            st.session_state["wc_change_pct"] = l_wc_change_pct
+            st.session_state["interest_pct"] = l_interest_pct
+            st.session_state["forecast_years"] = l_forecast_years
+            st.session_state["user_growth_rate_yr_1_2"] = l_growth_1_2
+            st.session_state["user_growth_rate_yr_3_4_5"] = l_growth_3_5
+            st.session_state["user_growth_rate_yr_6_onwards"] = l_growth_6
+            st.session_state["shares_outstanding"] = l_shares
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            ebit_margin = st.number_input("EBIT Margin (%)", value=l_ebit_margin, step=0.1)
-            depreciation_pct = st.number_input("Depreciation (% of Revenue)", value=l_depreciation_pct, step=0.1)
-            tax_rate = st.number_input("Tax Rate (% of EBIT)", value=l_tax_rate, step=0.1)
-            shares = st.number_input("Shares Outstanding (Cr)", value=l_shares, step=0.01)
+            ebit_margin = st.number_input("EBIT Margin (%)", step=0.1, key="ebit_margin")
+            depreciation_pct = st.number_input("Depreciation (% of Revenue)", step=0.1, key="depreciation_pct")
+            tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate")
         with col2:
-            capex_pct = st.number_input("CapEx (% of Revenue)", value=l_capex_pct, step=0.1)
-            wc_change_pct = st.number_input("Change in WC (% of Revenue)", value=l_wc_change_pct, step=0.1)
-            interest_pct = st.number_input("WACC (%)", value=l_interest_pct, step=0.1)
+            capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct")
+            wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct")
+            interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct")
         with col3:
-            forecast_years = st.number_input("Forecast Years", value=l_forecast_years, min_value=1, max_value=30)
-            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=l_growth_1_2, step=0.1)
-            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
-            growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
-            
+            forecast_years = st.number_input("Forecast Years", min_value=1, max_value=30, key="forecast_years")
+            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", step=0.1, key="user_growth_rate_yr_1_2")
+            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", step=0.1, key="user_growth_rate_yr_3_4_5")
+            growth_6 = st.number_input("Growth Rate Y6+ (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
+            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
+
     if st.button("🔄 Recalculate DCF"):
         st.session_state["ebit_margin"] = ebit_margin
         st.session_state["depreciation_pct"] = depreciation_pct
