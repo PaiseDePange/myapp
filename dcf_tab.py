@@ -4,6 +4,8 @@ from calculations import calculate_dcf, dcf_fair_value
 from final_verdict import render_final_verdict
 
 
+
+
 def render_dcf_tab():
     st.header("💰 DCF Valuation")
     if not st.session_state.get("data_imported"):
@@ -101,9 +103,13 @@ def render_dcf_tab():
         # Removed duplicate dcf_fair_value call to avoid redundant calculation
 
         st.metric("Fair Value per Share", f"₹{fv:,.2f}")
-        current_price = float(st.session_state["meta"].set_index("Label").loc["Current Price", "Value"])
+
+        meta_df = st.session_state["meta"].copy()
+        if meta_df.shape[1] == 2:
+            meta_df.columns = ["Label", "Value"]
+        current_price = float(meta_df.set_index("Label").loc["Current Price", "Value"])
         render_final_verdict(fair_value=fv, current_price=current_price)
-        
+
         with st.expander("📘 How Fair Value is Calculated"):
             fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
                 base_revenue=base_revenue,
@@ -135,5 +141,3 @@ def render_dcf_tab():
             **Fair Value/Share = EV ÷ Shares Outstanding ({shares:.2f} Cr)**
             - Fair Value/Share = ₹{fv:,.2f}
             """)
-           
-            
