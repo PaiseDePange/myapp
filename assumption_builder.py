@@ -46,5 +46,5 @@ def build_assumptions_from_data():
         "user_growth_rate_yr_1_2": 15.0,
         "user_growth_rate_yr_3_4_5": 10.0,
         "user_growth_rate_yr_6_onwards": 4.0,
-        "outstanding_shares": outstanding_shares
+        "shares_outstanding": outstanding_shares
     }
