@@ -92,7 +92,7 @@ def render_dcf_tab():
             growth_rate_x=growth_x,
             growth_rate_y=growth_y,
             growth_terminal=growth_terminal,
-            net_Debt = net_debt
+            net_Debt = net_debt 
             
 
         )
