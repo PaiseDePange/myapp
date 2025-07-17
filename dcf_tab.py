@@ -4,8 +4,6 @@ from calculations import calculate_dcf, dcf_fair_value
 from final_verdict import render_final_verdict
 from disclaimer import render_disclaimer
 
-
-
 def render_dcf_tab():
     col_header, col_button = st.columns([0.8, 0.2])
     with col_header:
@@ -38,9 +36,9 @@ def render_dcf_tab():
         l_growth_terminal = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         l_period_x = defaults.get("l_period_x", 5.0)
         l_period_y = defaults.get("l_period_y", 5.0)
-        l_growth_x = defaults.get("l_growth_x", 5.0)
-        l_growth_y = defaults.get("l_growth_y", 5.0)
-        l_shares = defaults.get("shares_outstanding", 0.0)
+        l_growth_x = defaults.get("l_growth_x", 20.0)
+        l_growth_y = defaults.get("l_growth_y", 12.0)
+        l_shares = defaults.get("shares_outstanding", 10.0)
       
         if st.button("🔁 Reset to Default"):
             st.session_state["ebit_margin"] = l_ebit_margin
