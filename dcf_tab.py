@@ -52,7 +52,7 @@ def render_dcf_tab():
             st.session_state["period_y"] = l_period_y
             st.session_state["growth_x"] = l_growth_x
             st.session_state["growth_y"] = l_growth_y
-            st.session_state["shares_outstanding"] = l_shares_outstanding
+            st.session_state["shares_outstanding"] = l_shares
           
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -78,7 +78,6 @@ def render_dcf_tab():
         capex_pct = st.session_state["capex_pct"]
         wc_change_pct = st.session_state["wc_change_pct"]
         interest_pct = st.session_state["interest_pct"]
-        
         terminal_growth = st.session_state["terminal_growth"]
         shares = st.session_state["shares_outstanding"]
 
