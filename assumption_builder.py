@@ -35,6 +35,19 @@ def build_assumptions_from_data():
         outstanding_shares = round(share_outstanding_row[-1]/10000000, 2)
     except:
         outstanding_shares = 0
+    try:
+        debt_row = df_bs.loc["Borrowings"].dropna()
+        investments_row = df_bs.loc["Investments"].dropna()
+        cash_bank_row = df_bs.loc["Cash & Bank"].dropna()
+    
+        debt = float(debt_row[-1])
+        cash = float(investments_row[-1]) + float(cash_bank_row[-1])
+        net_debt = debt - cash
+        
+    except KeyError:
+        st.warning("\u26a0\ufe0f Could not find all required rows (Borrowings, Investments, Cash & Bank) in balance sheet.")
+        
+
     return {
         "ebit_margin": calculated_ebit_margin,
         "depreciation_pct": calculated_depreciation_rate,
@@ -47,5 +60,7 @@ def build_assumptions_from_data():
         "growth_terminal":4.0,
         "period_x": 5,
         "period_y": 15,
-        "shares_outstanding": outstanding_shares
+        "shares_outstanding": outstanding_shares,
+        "net_debt":net_debt,
+        "latest_revenue":latest_revenue
     }
