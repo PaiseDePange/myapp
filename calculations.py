@@ -38,6 +38,11 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
     return fv_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal
 
 
+def calculate_terminal_value(fcf, g, r, n):
+    tv = (fcf * (1 + g / 100)) / ((r / 100) - (g / 100))
+    return tv / ((1 + r / 100) ** n), tv
+
+
 def dcf_fair_value(base_revenue, ebit_margin, depreciation_pct, capex_pct,
     wc_change_pct, tax_rate, interest_pct, shares,
     x_years, y_years, growth_rate_x, growth_rate_y, terminal_growth):
