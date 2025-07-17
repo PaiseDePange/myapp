@@ -39,36 +39,35 @@ def render_dcf_tab():
         l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         l_shares = defaults.get("shares_outstanding", 0.0)
         if st.button("🔁 Reset to Default"):
+            st.session_state["growth_x"] = defaults.get("growth_x", 20.0)
+            st.session_state["growth_y"] = defaults.get("growth_y", 12.0)
+            st.session_state["x_years"] = defaults.get("x_years", 5)
+            st.session_state["y_years"] = defaults.get("y_years", 15)
             st.session_state["ebit_margin"] = l_ebit_margin
             st.session_state["depreciation_pct"] = l_depreciation_pct
             st.session_state["tax_rate"] = l_tax_rate
             st.session_state["capex_pct"] = l_capex_pct
             st.session_state["wc_change_pct"] = l_wc_change_pct
             st.session_state["interest_pct"] = l_interest_pct
-            
             st.session_state["user_growth_rate_yr_6_onwards"] = l_growth_6
             st.session_state["shares_outstanding"] = l_shares
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            ebit_margin = st.number_input("EBIT Margin (%)", step=0.1, key="ebit_margin")
-            depreciation_pct = st.number_input("Depreciation (% of Revenue)", step=0.1, key="depreciation_pct")
-            tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate")
-            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, value=5, step=1, key="x_years")
-            growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x")
+            ebit_margin = st.number_input("EBIT Margin (% of Revenue)", step=0.1, key="ebit_margin", help="Operating profit as a percentage of revenue.")
+            depreciation_pct = st.number_input("Depreciation (% of Revenue)", step=0.1, key="depreciation_pct", help="Non-cash expense reducing asset value, as % of revenue.")
+            capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct", help="Capital expenditures as a % of revenue.")
+            wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct", help="Working capital changes estimated as % of revenue.")
         with col2:
-            capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct")
-            wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct")
-            interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct")
+            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, value=5, step=1, key="x_years")
+            growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x", help="Annual revenue growth rate during the high growth period (X years).")
             y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, value=15, step=1, key="y_years")
-            growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y")
+            growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y", help="Expected revenue growth after X years until the end of Y year projection.")
         with col3:
-            growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
-            # Removed duplicate to fix StreamlitDuplicateElementKey error
-                        # Removed: Growth Rate Y1-2 (%)
-            # Removed: Growth Rate Y3-5 (%)
-            # Removed duplicate to fix StreamlitDuplicateElementKey error
-            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
+            tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate", help="Effective tax rate applied on EBIT.")
+            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding", help="Total outstanding shares in crores.")
+            interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct", help="Weighted Average Cost of Capital used to discount cashflows.")
+            growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards", help="Stable long-term growth rate beyond projection period, typically < WACC.")
 
     if recalc:
         ebit_margin = st.session_state["ebit_margin"]
