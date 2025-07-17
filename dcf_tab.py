@@ -78,7 +78,7 @@ def render_dcf_tab():
         capex_pct = st.session_state["capex_pct"]
         wc_change_pct = st.session_state["wc_change_pct"]
         interest_pct = st.session_state["interest_pct"]
-        terminal_growth = st.session_state["terminal_growth"]
+        terminal_growth = st.session_state["growth_terminal"]
         shares = st.session_state["shares_outstanding"]
 
         fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
