@@ -17,7 +17,6 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
             revenue *= (1 + growth_rate_x / 100)
         else:
             revenue *= (1 + growth_rate_y / 100)
-            revenue *= (1 + growth_6 / 100)
         ebit = revenue * (ebit_margin / 100)
         tax = ebit * (tax_rate / 100)
         dep = revenue * (depreciation_pct / 100)
