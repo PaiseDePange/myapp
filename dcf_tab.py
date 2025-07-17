@@ -102,7 +102,10 @@ def render_dcf_tab():
             "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"
         ])
         with st.expander("📊 Free Cash Flow Table"):
-            st.dataframe(df_fcf.style.format("{:.2f}"))
+            st.dataframe(df_fcf.style.format({
+                "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
+                "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
+            }))
 
         st.metric("Fair Value per Share", f"₹{fv:,.2f}")
 
