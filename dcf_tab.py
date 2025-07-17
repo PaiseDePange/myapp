@@ -114,21 +114,33 @@ def render_dcf_tab():
         st.metric("Fair Value per Share", f"₹{fair_value_per_share:,.2f}")
 
         with st.expander("📘 How Fair Value is Calculated"):
+            fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
+                base_revenue=base_revenue,
+                ebit_margin=ebit_margin,
+                depreciation_pct=depreciation_pct,
+                capex_pct=capex_pct,
+                wc_change_pct=wc_change_pct,
+                tax_rate=tax_rate,
+                interest_pct=interest_pct,
+                shares=shares,
+                x_years=x_years,
+                y_years=y_years,
+                growth_rate_x=growth_x,
+                growth_rate_y=growth_y,
+                terminal_growth=growth_6
+            )
             st.markdown(f"""
             **Fair Value per Share Calculation**
-            
-            1. **FCF Projection**: Projected Free Cash Flows for {forecast_years} years.
-            2. **Terminal Value**:
-            \[ TV = FCF × (1 + g) / (r - g) \]
-            Where:
-              - FCF = ₹{final_fcf:,.2f}
-              - g = {growth_6:.2f}% (Terminal Growth)
-              - r = {interest_pct:.2f}% (WACC)
-              - Terminal Value = ₹{terminal_value:,.2f}
-              - Discounted Terminal Value = ₹{pv_terminal:,.2f}
-            3. **Enterprise Value = PV of FCFs + PV of Terminal Value**  
-               = ₹{total_pv_fcf:,.2f} + ₹{pv_terminal:,.2f} = ₹{enterprise_value:,.2f}
-            4. **Equity Value = Enterprise Value** (assuming no debt/cash adjustment)
-            5. **Fair Value per Share = Equity Value / Shares Outstanding ({shares:.2f} Cr)**
-               = ₹{fair_value_per_share:,.2f} per share
+
+            **Phase Breakdown:**
+            - Phase 1 (Years 1–{x_years}) PV: ₹{phase1_pv:,.2f}
+            - Phase 2 (Years {x_years+1}–{y_years}) PV: ₹{phase2_pv:,.2f}
+            - Terminal Value PV: ₹{pv_terminal:,.2f}  
+              → Contributes **{terminal_weight:.1f}%** of total Enterprise Value
+
+            **Enterprise Value = PV of All FCFs + Terminal Value**
+            - EV = ₹{phase1_pv + phase2_pv:,.2f} + ₹{pv_terminal:,.2f} = ₹{phase1_pv + phase2_pv + pv_terminal:,.2f}
+
+            **Fair Value/Share = EV ÷ Shares Outstanding ({shares:.2f} Cr)**
+            - Fair Value/Share = ₹{fv:,.2f}
             """)
