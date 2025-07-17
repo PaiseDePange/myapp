@@ -62,17 +62,17 @@ def render_dcf_tab():
             shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
 
     if st.button("🔄 Recalculate DCF"):
-        st.session_state["ebit_margin"] = ebit_margin
-        st.session_state["depreciation_pct"] = depreciation_pct
-        st.session_state["tax_rate"] = tax_rate
-        st.session_state["capex_pct"] = capex_pct
-        st.session_state["wc_change_pct"] = wc_change_pct
-        st.session_state["interest_pct"] = interest_pct
-        st.session_state["forecast_years"] = forecast_years
-        st.session_state["user_growth_rate_yr_1_2"] = growth_1_2
-        st.session_state["user_growth_rate_yr_3_4_5"] = growth_3_5
-        st.session_state["user_growth_rate_yr_6_onwards"] = growth_6
-        st.session_state["shares_outstanding"] = shares
+        ebit_margin = st.session_state["ebit_margin"]
+        depreciation_pct = st.session_state["depreciation_pct"]
+        tax_rate = st.session_state["tax_rate"]
+        capex_pct = st.session_state["capex_pct"]
+        wc_change_pct = st.session_state["wc_change_pct"]
+        interest_pct = st.session_state["interest_pct"]
+        forecast_years = st.session_state["forecast_years"]
+        growth_1_2 = st.session_state["user_growth_rate_yr_1_2"]
+        growth_3_5 = st.session_state["user_growth_rate_yr_3_4_5"]
+        growth_6 = st.session_state["user_growth_rate_yr_6_onwards"]
+        shares = st.session_state["shares_outstanding"]
 
         fcf_data = calculate_dcf(
             base_revenue=base_revenue,
