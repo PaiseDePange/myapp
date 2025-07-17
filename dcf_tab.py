@@ -35,23 +35,27 @@ def render_dcf_tab():
         l_capex_pct = defaults.get("capex_pct", 2.0)
         l_wc_change_pct = defaults.get("wc_change_pct", 2.0)
         l_interest_pct = defaults.get("interest_pct", 10.0)
-        
-        l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
+        l_growth_terminal = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
+        l_period_x = defaults.get("l_period_x", 5.0)
+        l_period_y = defaults.get("l_period_y", 5.0)
+        l_growth_x = defaults.get("l_growth_x", 5.0)
+        l_growth_y = defaults.get("l_growth_y", 5.0)
         l_shares = defaults.get("shares_outstanding", 0.0)
+      
         if st.button("🔁 Reset to Default"):
-            st.session_state["growth_x"] = defaults.get("growth_x", 20.0)
-            st.session_state["growth_y"] = defaults.get("growth_y", 12.0)
-            st.session_state["x_years"] = defaults.get("x_years", 5)
-            st.session_state["y_years"] = defaults.get("y_years", 15)
             st.session_state["ebit_margin"] = l_ebit_margin
             st.session_state["depreciation_pct"] = l_depreciation_pct
             st.session_state["tax_rate"] = l_tax_rate
             st.session_state["capex_pct"] = l_capex_pct
             st.session_state["wc_change_pct"] = l_wc_change_pct
             st.session_state["interest_pct"] = l_interest_pct
-            st.session_state["user_growth_rate_yr_6_onwards"] = l_growth_6
-            st.session_state["shares_outstanding"] = l_shares
-
+            st.session_state["growth_terminal"] = l_growth_terminal
+            st.session_state["period_x"] = l_period_x
+            st.session_state["period_y"] = l_period_y
+            st.session_state["growth_x"] = l_growth_x
+            st.session_state["growth_y"] = l_growth_y
+            st.session_state["shares_outstanding"] = l_shares_outstanding
+          
         col1, col2, col3 = st.columns(3)
         with col1:
             ebit_margin = st.number_input("EBIT Margin (% of Revenue)", step=0.1, key="ebit_margin", help="Operating profit as a percentage of revenue.")
@@ -59,15 +63,15 @@ def render_dcf_tab():
             capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct", help="Capital expenditures as a % of revenue.")
             wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct", help="Working capital changes estimated as % of revenue.")
         with col2:
-            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, value=5, step=1, key="x_years")
+            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, key="period_x", step=1, key="x_years")
             growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x", help="Annual revenue growth rate during the high growth period (X years).")
-            y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, value=15, step=1, key="y_years")
+            y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, key="period_y", step=1, key="y_years")
             growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y", help="Expected revenue growth after X years until the end of Y year projection.")
         with col3:
             tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate", help="Effective tax rate applied on EBIT.")
             shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding", help="Total outstanding shares in crores.")
             interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct", help="Weighted Average Cost of Capital used to discount cashflows.")
-            growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards", help="Stable long-term growth rate beyond projection period, typically < WACC.")
+            growth_terminal = st.number_input("Terminal Growth Rate (%)", step=0.1, key="growth_terminal", help="Stable long-term growth rate beyond projection period, typically < WACC.")
 
     if recalc:
         ebit_margin = st.session_state["ebit_margin"]
@@ -77,7 +81,7 @@ def render_dcf_tab():
         wc_change_pct = st.session_state["wc_change_pct"]
         interest_pct = st.session_state["interest_pct"]
         
-        growth_6 = st.session_state["user_growth_rate_yr_6_onwards"]
+        terminal_growth = st.session_state["terminal_growth"]
         shares = st.session_state["shares_outstanding"]
 
         fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
@@ -93,7 +97,7 @@ def render_dcf_tab():
             y_years=y_years,
             growth_rate_x=growth_x,
             growth_rate_y=growth_y,
-            terminal_growth=growth_6
+            terminal_growth=terminal_growth
         )
 
         df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
@@ -129,7 +133,7 @@ def render_dcf_tab():
                 y_years=y_years,
                 growth_rate_x=growth_x,
                 growth_rate_y=growth_y,
-                terminal_growth=growth_6
+                terminal_growth=terminal_growth
             )
             st.markdown(f"""
             **Fair Value per Share Calculation**
