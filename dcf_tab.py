@@ -82,7 +82,6 @@ def render_dcf_tab():
 
         fcf_data = calculate_dcf(
             base_revenue=base_revenue,
-            forecast_years=forecast_years,
             ebit_margin=ebit_margin,
             depreciation_pct=depreciation_pct,
             capex_pct=capex_pct,
@@ -90,9 +89,11 @@ def render_dcf_tab():
             wc_change_pct=wc_change_pct,
             tax_rate=tax_rate,
             shares=shares,
-            growth_rate_1_2=growth_1_2,
-            growth_rate_3_4_5=growth_3_5,
-            growth_rate_6=growth_6
+            x_years=x_years,
+            y_years=y_years,
+            growth_rate_x=growth_x,
+            growth_rate_y=growth_y,
+            terminal_growth=growth_6
         )
 
         df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
