@@ -110,7 +110,7 @@ def render_dcf_tab():
             growth_rate_x=growth_x,
             growth_rate_y=growth_y,
             terminal_growth=terminal_growth,
-            net_debt
+            net_debt=net_debt
         )
 
         df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
