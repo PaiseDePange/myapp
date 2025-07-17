@@ -30,9 +30,7 @@ def render_dcf_tab():
         l_capex_pct = defaults.get("capex_pct", 2.0)
         l_wc_change_pct = defaults.get("wc_change_pct", 2.0)
         l_interest_pct = defaults.get("interest_pct", 10.0)
-        l_forecast_years = defaults.get("forecast_years", 20)
-        l_growth_1_2 = defaults.get("user_growth_rate_yr_1_2", 10.0)
-        l_growth_3_5 = defaults.get("user_growth_rate_yr_3_4_5", 10.0)
+        
         l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         l_shares = defaults.get("shares_outstanding", 0.0)
         if st.button("🔁 Reset to Default"):
@@ -42,9 +40,7 @@ def render_dcf_tab():
             st.session_state["capex_pct"] = l_capex_pct
             st.session_state["wc_change_pct"] = l_wc_change_pct
             st.session_state["interest_pct"] = l_interest_pct
-            st.session_state["forecast_years"] = l_forecast_years
-            st.session_state["user_growth_rate_yr_1_2"] = l_growth_1_2
-            st.session_state["user_growth_rate_yr_3_4_5"] = l_growth_3_5
+            
             st.session_state["user_growth_rate_yr_6_onwards"] = l_growth_6
             st.session_state["shares_outstanding"] = l_shares
 
@@ -64,9 +60,8 @@ def render_dcf_tab():
         with col3:
             growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
             # Removed duplicate to fix StreamlitDuplicateElementKey error
-            forecast_years = st.number_input("Forecast Years", min_value=1, max_value=30, key="forecast_years")
-            growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", step=0.1, key="user_growth_rate_yr_1_2")
-            growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", step=0.1, key="user_growth_rate_yr_3_4_5")
+                        # Removed: Growth Rate Y1-2 (%)
+            # Removed: Growth Rate Y3-5 (%)
             # Removed duplicate to fix StreamlitDuplicateElementKey error
             shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
 
@@ -77,9 +72,7 @@ def render_dcf_tab():
         capex_pct = st.session_state["capex_pct"]
         wc_change_pct = st.session_state["wc_change_pct"]
         interest_pct = st.session_state["interest_pct"]
-        forecast_years = st.session_state["forecast_years"]
-        growth_1_2 = st.session_state["user_growth_rate_yr_1_2"]
-        growth_3_5 = st.session_state["user_growth_rate_yr_3_4_5"]
+        
         growth_6 = st.session_state["user_growth_rate_yr_6_onwards"]
         shares = st.session_state["shares_outstanding"]
 
