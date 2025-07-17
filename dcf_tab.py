@@ -35,7 +35,7 @@ def render_dcf_tab():
         l_interest_pct = defaults.get("interest_pct", 10.0)
         l_growth_terminal = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         l_period_x = defaults.get("l_period_x", 5.0)
-        l_period_y = defaults.get("l_period_y", 5.0)
+        l_period_y = defaults.get("l_period_y", 15.0)
         l_growth_x = defaults.get("l_growth_x", 20.0)
         l_growth_y = defaults.get("l_growth_y", 12.0)
         l_shares = defaults.get("shares_outstanding", 10.0)
