@@ -59,7 +59,7 @@ def render_dcf_tab():
             growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", value=l_growth_1_2, step=0.1)
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
             growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
-            shares = st.number_input("Shares Outstanding (Cr)", value=l_shares, step=0.01), step=0.01)
+            shares = st.number_input("Shares Outstanding (Cr)", value=l_shares, step=0.01)
 
     if st.button("🔄 Recalculate DCF"):
         st.session_state["ebit_margin"] = ebit_margin
@@ -72,6 +72,7 @@ def render_dcf_tab():
         st.session_state["user_growth_rate_yr_1_2"] = growth_1_2
         st.session_state["user_growth_rate_yr_3_4_5"] = growth_3_5
         st.session_state["user_growth_rate_yr_6_onwards"] = growth_6
+        st.session_state["shares_outstanding"] = shares
 
         fcf_data = calculate_dcf(
             base_revenue=base_revenue,
