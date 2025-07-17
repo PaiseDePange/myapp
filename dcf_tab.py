@@ -79,20 +79,20 @@ def render_dcf_tab():
 
     if recalc:
         fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal, enterprise_value, equity_value = calculate_dcf(
-            base_revenue=base_revenue,
-            ebit_margin=ebit_margin,
-            depreciation_pct=depreciation_pct,
-            capex_pct=capex_pct,
-            interest_pct=interest_pct,
-            wc_change_pct=wc_change_pct,
-            tax_rate=tax_rate,
-            shares=shares,
-            x_years=x_years,
-            y_years=y_years,
-            growth_rate_x=growth_x,
-            growth_rate_y=growth_y,
-            growth_terminal=growth_terminal,
-            net_Debt = net_debt 
+            base_revenue=st.session_state["base_revenue"],
+            ebit_margin=st.session_state["ebit_margin"],
+            depreciation_pct=st.session_state["depreciation_pct"],
+            capex_pct=st.session_state["capex_pct"],
+            interest_pct=st.session_state["interest_pct"],
+            wc_change_pct=st.session_state["wc_change_pct"],
+            tax_rate=st.session_state["tax_rate"],
+            shares=st.session_state["shares_outstanding"],
+            x_years=st.session_state["x_years"],
+            y_years=st.session_state["y_years"],
+            growth_rate_x=st.session_state["growth_x"],
+            growth_rate_y=st.session_state["growth_y"],
+            terminal_growth=st.session_state["growth_terminal"],
+            net_debt=st.session_state["net_debt"]
             
 
         )
