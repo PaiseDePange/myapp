@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from calculations import calculate_dcf,
+from calculations import calculate_dcf
 from final_verdict import render_final_verdict
 from disclaimer import render_disclaimer
 
