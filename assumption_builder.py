@@ -42,9 +42,10 @@ def build_assumptions_from_data():
         "capex_pct": 2.0,
         "wc_change_pct": 2.0,
         "interest_pct": 11.0,
-        "forecast_years": 30,
-        "user_growth_rate_yr_1_2": 15.0,
-        "user_growth_rate_yr_3_4_5": 10.0,
-        "user_growth_rate_yr_6_onwards": 4.0,
+        "growth_x": 15.0,
+        "growth_y": 10.0,
+        "growth_terminal":4.0,
+        "period_x": 5,
+        "period_y": 15,
         "shares_outstanding": outstanding_shares
     }
