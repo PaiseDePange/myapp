@@ -14,9 +14,9 @@ def render_dcf_tab():
         st.info("Please upload data first in the Inputs tab.")
         return
 
-    df = st.session_state["annual_pl"].copy().set_index("Report Date")
-    revenue_row = df.loc["Sales"].dropna()
-    base_revenue = revenue_row.values[-1]
+    #df = st.session_state["annual_pl"].copy().set_index("Report Date")
+    #revenue_row = df.loc["Sales"].dropna()
+    #base_revenue = revenue_row.values[-1]
 
     with st.expander("📋 Assumptions", expanded=True):
         if "initial_assumptions" not in st.session_state:
@@ -39,7 +39,9 @@ def render_dcf_tab():
         l_growth_x = defaults.get("l_growth_x", 20.0)
         l_growth_y = defaults.get("l_growth_y", 12.0)
         l_shares = defaults.get("shares_outstanding", 10.0)
-      
+        l_base_revenue = defaults.get("latest_revenue", 10.0)
+        l_net_debt = defaults.get("net_debt", 0.0)
+        
         if st.button("🔁 Reset to Default"):
             st.session_state["ebit_margin"] = l_ebit_margin
             st.session_state["depreciation_pct"] = l_depreciation_pct
@@ -53,22 +55,28 @@ def render_dcf_tab():
             st.session_state["growth_x"] = l_growth_x
             st.session_state["growth_y"] = l_growth_y
             st.session_state["shares_outstanding"] = l_shares
+            st.session_state["base_revenue"] = l_base_revenue
+            st.session_state["net_debt"] = l_net_debt
+            
           
         col1, col2, col3 = st.columns(3)
         with col1:
+            base_revenue = st.number_input("Latest Annual Revenue", step=10, key="base_revenue", help="Latest Revenue or Sales number") 
+            net_debt = st.number_input("Net Debt", step=10, key="net_debt")
+            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding", help="Total outstanding shares in crores.")
             ebit_margin = st.number_input("EBIT Margin (% of Revenue)", step=0.1, key="ebit_margin", help="Operating profit as a percentage of revenue.")
             depreciation_pct = st.number_input("Depreciation (% of Revenue)", step=0.1, key="depreciation_pct", help="Non-cash expense reducing asset value, as % of revenue.")
+            
+        with col2:
             capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct", help="Capital expenditures as a % of revenue.")
             wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct", help="Working capital changes estimated as % of revenue.")
-        with col2:
+            tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate", help="Effective tax rate applied on EBIT.")
+            interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct", help="Weighted Average Cost of Capital used to discount cashflows.")
+        with col3:
             x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, step=1, key="x_years")
             growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x", help="Annual revenue growth rate during the high growth period (X years).")
             y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, step=1, key="y_years")
             growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y", help="Expected revenue growth after X years until the end of Y year projection.")
-        with col3:
-            tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate", help="Effective tax rate applied on EBIT.")
-            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding", help="Total outstanding shares in crores.")
-            interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct", help="Weighted Average Cost of Capital used to discount cashflows.")
             growth_terminal = st.number_input("Terminal Growth Rate (%)", step=0.1, key="growth_terminal", help="Stable long-term growth rate beyond projection period, typically < WACC.")
 
     if recalc:
@@ -84,6 +92,9 @@ def render_dcf_tab():
         growth_x = st.session_state["growth_x"]
         y_years = st.session_state["y_years"]
         growth_y = st.session_state["growth_y"]
+        base_revenue = st.session_state["base_revenue"]
+        net_debt = st.session_state["net_debt"]
+        
 
         fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
             base_revenue=base_revenue,
@@ -98,7 +109,8 @@ def render_dcf_tab():
             y_years=y_years,
             growth_rate_x=growth_x,
             growth_rate_y=growth_y,
-            terminal_growth=terminal_growth
+            terminal_growth=terminal_growth,
+            net_debt
         )
 
         df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
@@ -134,7 +146,8 @@ def render_dcf_tab():
                 y_years=y_years,
                 growth_rate_x=growth_x,
                 growth_rate_y=growth_y,
-                terminal_growth=terminal_growth
+                terminal_growth=terminal_growth,
+                net_debt=net_debt
             )
             st.markdown(f"""
             **Fair Value per Share Calculation**
