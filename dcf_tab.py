@@ -40,7 +40,7 @@ def render_dcf_tab():
         l_growth_y = defaults.get("l_growth_y", 12.0)
         l_shares = defaults.get("shares_outstanding", 10.0)
       
-          if st.button("🔁 Reset to Default"):
+        if st.button("🔁 Reset to Default"):
             st.session_state["ebit_margin"] = l_ebit_margin
             st.session_state["depreciation_pct"] = l_depreciation_pct
             st.session_state["tax_rate"] = l_tax_rate
@@ -80,6 +80,10 @@ def render_dcf_tab():
         interest_pct = st.session_state["interest_pct"]
         terminal_growth = st.session_state["growth_terminal"]
         shares = st.session_state["shares_outstanding"]
+        x_years = st.session_state["x_years"]
+        growth_x = st.session_state["growth_x"]
+        y_years = st.session_state["y_years"]
+        growth_y = st.session_state["growth_y"]
 
         fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
             base_revenue=base_revenue,
