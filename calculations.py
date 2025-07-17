@@ -37,13 +37,13 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
 
     final_fcf = fcf
     terminal_val = calculate_terminal_value(final_fcf, terminal_growth, interest_pct, y_years)
-    terminal_pv = terminal_value / discount_factors[-1]
+    terminal_pv = terminal_val / discount_factors[-1]
     enterprise_value = total_pv_fcf + terminal_pv
     equity_value = enterprise_value - net_debt
     fair_value_per_share = equity_value / shares if shares > 0 else 0
     
-    terminal_weight = pv_terminal / equity_value * 100 if equity_value else 0
-    return fcf_data, fair_value_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal, enterprise_value, equity_value 
+    terminal_weight = terminal_pv / equity_value * 100 if equity_value else 0
+    return fcf_data, fair_value_per_share, terminal_weight, phase1_pv, phase2_pv, terminal_pv, enterprise_value, equity_value 
 
 
 def calculate_terminal_value(fcf, g, r, n):
