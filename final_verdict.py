@@ -25,3 +25,10 @@ def render_final_verdict(fair_value, current_price):
         </span>
     </div>
     """.format(color=badge_color, verdict=verdict), unsafe_allow_html=True)
+
+    st.markdown("""
+    💡 We determine the valuation status by comparing the calculated fair value with the current market price:
+    - 🟢 **Undervalued** if fair value is more than 15% higher than the current price
+    - ⚪ **Fairly Valued** if within ±15% of current price
+    - 🔴 **Overvalued** if fair value is more than 15% below the current price
+    """)
