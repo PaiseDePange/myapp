@@ -1,11 +1,6 @@
 import streamlit as st
 import pandas as pd
 from calculations import calculate_dcf, dcf_fair_value
-from assumption_builder import build_assumptions_from_data
-
-if "initial_assumptions" not in st.session_state:
-    st.error("Initial assumptions not found. Please upload data again from the Inputs tab.")
-    return
 
 def render_dcf_tab():
     st.header("💰 DCF Valuation")
@@ -18,7 +13,11 @@ def render_dcf_tab():
     base_revenue = revenue_row.values[-1]
 
     with st.expander("📋 Assumptions", expanded=True):
-        
+        if "initial_assumptions" not in st.session_state:
+            st.error("Initial assumptions not found. Please upload data from the Inputs tab.")
+            return
+        # Load assumptions from initial assumptions (not session_state)
+        defaults = st.session_state.get("initial_assumptions", {})
         l_ebit_margin = defaults.get("ebit_margin", 20.0)
         l_depreciation_pct = defaults.get("depreciation_pct", 5.0)
         l_tax_rate = defaults.get("tax_rate", 25.0)
@@ -30,7 +29,6 @@ def render_dcf_tab():
         l_growth_3_5 = defaults.get("user_growth_rate_yr_3_4_5", 10.0)
         l_growth_6 = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
         if st.button("🔁 Reset to Default"):
-            defaults = st.session_state["initial_assumptions"]
             ebit_margin = l_ebit_margin
             depreciation_pct = l_depreciation_pct
             tax_rate = l_tax_rate
