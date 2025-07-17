@@ -1,6 +1,6 @@
 def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
                   interest_pct, wc_change_pct, tax_rate, shares,
-                  x_years, y_years, growth_rate_x, growth_rate_y, terminal_growth):
+                  x_years, y_years, growth_rate_x, growth_rate_y, terminal_growth, net_debt):
 
     if terminal_growth >= interest_pct:
         raise ValueError("❌ Terminal growth rate must be less than WACC.")
@@ -36,16 +36,19 @@ def calculate_dcf(base_revenue, ebit_margin, depreciation_pct, capex_pct,
             phase2_pv += pv_fcf
 
     final_fcf = fcf
-    pv_terminal, terminal_val = calculate_terminal_value(final_fcf, terminal_growth, interest_pct, y_years)
-    ev = total_pv_fcf + pv_terminal    
+    terminal_val = calculate_terminal_value(final_fcf, terminal_growth, interest_pct, y_years)
+    terminal_pv = terminal_value / discount_factors[-1]
+    enterprise_value = total_pv_fcf + terminal_pv
+    equity_value = enterprise_value - net_debt
+    fair_value_per_share = equity_value / shares if shares > 0 else 0
     fv_per_share = ev / shares if shares else 0
-    terminal_weight = pv_terminal / ev * 100 if ev else 0
-    return fcf_data, fv_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal
+    terminal_weight = pv_terminal / equity_value * 100 if equity_value else 0
+    return fcf_data, fv_per_share, terminal_weight, phase1_pv, phase2_pv, pv_terminal, enterprise_value, equity_value 
 
 
 def calculate_terminal_value(fcf, g, r, n):
     tv = (fcf * (1 + g / 100)) / ((r / 100) - (g / 100))
-    return tv / ((1 + r / 100) ** n), tv
+    return tv
 
 
 def dcf_fair_value(base_revenue, ebit_margin, depreciation_pct, capex_pct,
