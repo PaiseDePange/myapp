@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from calculations import calculate_dcf, dcf_fair_value
 from final_verdict import render_final_verdict
-
+from disclaimer import render_disclaimer
 
 def render_dcf_tab():
     st.header("💰 DCF Valuation")
@@ -107,7 +107,7 @@ def render_dcf_tab():
             meta_df.columns = ["Label", "Value"]
         current_price = float(meta_df.set_index("Label").loc["Current Price", "Value"])
         render_final_verdict(fair_value=fv, current_price=current_price)
-        
+        render_disclaimer()
         with st.expander("📘 How Fair Value is Calculated"):
             fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
                 base_revenue=base_revenue,
