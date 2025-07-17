@@ -40,7 +40,7 @@ def render_dcf_tab():
         l_growth_y = defaults.get("l_growth_y", 12.0)
         l_shares = defaults.get("shares_outstanding", 10.0)
       
-        if st.button("🔁 Reset to Default"):
+          if st.button("🔁 Reset to Default"):
             st.session_state["ebit_margin"] = l_ebit_margin
             st.session_state["depreciation_pct"] = l_depreciation_pct
             st.session_state["tax_rate"] = l_tax_rate
@@ -48,8 +48,8 @@ def render_dcf_tab():
             st.session_state["wc_change_pct"] = l_wc_change_pct
             st.session_state["interest_pct"] = l_interest_pct
             st.session_state["growth_terminal"] = l_growth_terminal
-            st.session_state["period_x"] = l_period_x
-            st.session_state["period_y"] = l_period_y
+            st.session_state["x_years"] = l_period_x
+            st.session_state["y_years"] = l_period_y
             st.session_state["growth_x"] = l_growth_x
             st.session_state["growth_y"] = l_growth_y
             st.session_state["shares_outstanding"] = l_shares
@@ -61,9 +61,9 @@ def render_dcf_tab():
             capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct", help="Capital expenditures as a % of revenue.")
             wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct", help="Working capital changes estimated as % of revenue.")
         with col2:
-            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, key="period_x", step=1, key="x_years")
+            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, step=1, key="x_years")
             growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x", help="Annual revenue growth rate during the high growth period (X years).")
-            y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, key="period_y", step=1, key="y_years")
+            y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, step=1, key="y_years")
             growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y", help="Expected revenue growth after X years until the end of Y year projection.")
         with col3:
             tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate", help="Effective tax rate applied on EBIT.")
