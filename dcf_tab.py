@@ -60,11 +60,11 @@ def render_dcf_tab():
             growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y")
         with col3:
             growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
-            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
+            # Removed duplicate to fix StreamlitDuplicateElementKey error
             forecast_years = st.number_input("Forecast Years", min_value=1, max_value=30, key="forecast_years")
             growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", step=0.1, key="user_growth_rate_yr_1_2")
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", step=0.1, key="user_growth_rate_yr_3_4_5")
-            growth_6 = st.number_input("Growth Rate Y6+ (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
+            # Removed duplicate to fix StreamlitDuplicateElementKey error
             shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
 
     if st.button("🔄 Recalculate DCF"):
