@@ -50,11 +50,17 @@ def render_dcf_tab():
             ebit_margin = st.number_input("EBIT Margin (%)", step=0.1, key="ebit_margin")
             depreciation_pct = st.number_input("Depreciation (% of Revenue)", step=0.1, key="depreciation_pct")
             tax_rate = st.number_input("Tax Rate (% of EBIT)", step=0.1, key="tax_rate")
+            x_years = st.number_input("High Growth Period (X years)", min_value=1, max_value=30, value=5, step=1, key="x_years")
+            growth_x = st.number_input("Growth Rate in X years (%)", step=0.1, value=20.0, key="growth_x")
         with col2:
             capex_pct = st.number_input("CapEx (% of Revenue)", step=0.1, key="capex_pct")
             wc_change_pct = st.number_input("Change in WC (% of Revenue)", step=0.1, key="wc_change_pct")
             interest_pct = st.number_input("WACC (%)", step=0.1, key="interest_pct")
+            y_years = st.number_input("Total Projection Period (Y years)", min_value=5, max_value=40, value=15, step=1, key="y_years")
+            growth_y = st.number_input("Growth Rate from X to Y years (%)", step=0.1, value=12.0, key="growth_y")
         with col3:
+            growth_6 = st.number_input("Terminal Growth Rate (%)", step=0.1, key="user_growth_rate_yr_6_onwards")
+            shares = st.number_input("Shares Outstanding (Cr)", step=0.01, key="shares_outstanding")
             forecast_years = st.number_input("Forecast Years", min_value=1, max_value=30, key="forecast_years")
             growth_1_2 = st.number_input("Growth Rate Y1-2 (%)", step=0.1, key="user_growth_rate_yr_1_2")
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", step=0.1, key="user_growth_rate_yr_3_4_5")
