@@ -96,7 +96,7 @@ def render_dcf_tab():
                 "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
             }))
 
-        final_fcf = fcf_data[-1][-2]
+        final_fcf = fcf_data[forecast_years][-2]
         terminal_value = (final_fcf * (1 + growth_6 / 100)) / ((interest_pct / 100) - (growth_6 / 100))
         pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
         total_pv_fcf = sum(row[-1] for row in fcf_data[1:])
