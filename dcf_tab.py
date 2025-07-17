@@ -18,7 +18,7 @@ def render_dcf_tab():
             return
         # Load assumptions from initial assumptions (not session_state)
         defaults = st.session_state["initial_assumptions"]
-        l_ebit_margin = defaults.get("ebit_margin", 20.0)
+        l_ebit_margin = defaults["ebit_margin"]
         l_depreciation_pct = defaults.get("depreciation_pct", 5.0)
         l_tax_rate = defaults.get("tax_rate", 25.0)
         l_capex_pct = defaults.get("capex_pct", 2.0)
