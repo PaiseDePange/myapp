@@ -83,7 +83,7 @@ def render_dcf_tab():
         growth_6 = st.session_state["user_growth_rate_yr_6_onwards"]
         shares = st.session_state["shares_outstanding"]
 
-        fcf_data = calculate_dcf(
+        fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
             base_revenue=base_revenue,
             ebit_margin=ebit_margin,
             depreciation_pct=depreciation_pct,
@@ -106,21 +106,7 @@ def render_dcf_tab():
                 "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
             }))
 
-        fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
-            base_revenue=base_revenue,
-            ebit_margin=ebit_margin,
-            depreciation_pct=depreciation_pct,
-            capex_pct=capex_pct,
-            wc_change_pct=wc_change_pct,
-            tax_rate=tax_rate,
-            interest_pct=interest_pct,
-            shares=shares,
-            x_years=x_years,
-            y_years=y_years,
-            growth_rate_x=growth_x,
-            growth_rate_y=growth_y,
-            terminal_growth=growth_6
-        )
+        # Removed duplicate dcf_fair_value call to avoid redundant calculation
 
         st.metric("Fair Value per Share", f"₹{fv:,.2f}")
 
