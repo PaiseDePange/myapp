@@ -17,7 +17,7 @@ def render_dcf_tab():
             st.error("Initial assumptions not found. Please upload data from the Inputs tab.")
             return
         # Load assumptions from initial assumptions (not session_state)
-        defaults = st.session_state["initial_assumptions"]
+        defaults = st.session_state.get("initial_assumptions", {})
         l_ebit_margin = defaults.get("ebit_margin", 20.0)
         l_depreciation_pct = defaults.get("depreciation_pct", 5.0)
         l_tax_rate = defaults.get("tax_rate", 25.0)
@@ -55,3 +55,47 @@ def render_dcf_tab():
             growth_3_5 = st.number_input("Growth Rate Y3-5 (%)", value=l_growth_3_5, step=0.1)
             growth_6 = st.number_input("Growth Rate Y6+ (%)", value=l_growth_6, step=0.1)
             shares = st.number_input("Shares Outstanding (Cr)", value=st.session_state.get("shares_outstanding", 0.0), step=0.01)
+
+    if st.button("🔄 Recalculate DCF"):
+        st.session_state["ebit_margin"] = ebit_margin
+        st.session_state["depreciation_pct"] = depreciation_pct
+        st.session_state["tax_rate"] = tax_rate
+        st.session_state["capex_pct"] = capex_pct
+        st.session_state["wc_change_pct"] = wc_change_pct
+        st.session_state["interest_pct"] = interest_pct
+        st.session_state["forecast_years"] = forecast_years
+        st.session_state["user_growth_rate_yr_1_2"] = growth_1_2
+        st.session_state["user_growth_rate_yr_3_4_5"] = growth_3_5
+        st.session_state["user_growth_rate_yr_6_onwards"] = growth_6
+
+        fcf_data = calculate_dcf(
+            base_revenue=base_revenue,
+            forecast_years=forecast_years,
+            ebit_margin=ebit_margin,
+            depreciation_pct=depreciation_pct,
+            capex_pct=capex_pct,
+            interest_pct=interest_pct,
+            wc_change_pct=wc_change_pct,
+            tax_rate=tax_rate,
+            shares=shares,
+            growth_rate_1_2=growth_1_2,
+            growth_rate_3_4_5=growth_3_5,
+            growth_rate_6=growth_6
+        )
+
+        df_fcf = pd.DataFrame(fcf_data, columns=["Year", "Revenue", "EBIT", "Tax", "Net Operating PAT", "Depreciation", "CapEx", "Change in WC", "Free Cash Flow", "PV of FCF"])
+        with st.expander("📊 Free Cash Flow Table"):
+            st.dataframe(df_fcf.style.format({
+                "Revenue": "{:.2f}", "EBIT": "{:.2f}", "Tax": "{:.2f}", "Net Operating PAT": "{:.2f}", "Depreciation": "{:.2f}",
+                "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
+            }))
+
+        final_fcf = fcf_data[-1][-2]
+        terminal_value = (final_fcf * (1 + growth_6 / 100)) / ((interest_pct / 100) - (growth_6 / 100))
+        pv_terminal = terminal_value / ((1 + interest_pct / 100) ** forecast_years)
+        total_pv_fcf = sum(row[-1] for row in fcf_data[1:])
+        enterprise_value = total_pv_fcf + pv_terminal
+        equity_value = enterprise_value
+        fair_value_per_share = equity_value / shares if shares else 0
+
+        st.metric("Fair Value per Share", f"₹{fair_value_per_share:,.2f}")
