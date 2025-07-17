@@ -31,7 +31,7 @@ def render_dcf_tab():
         l_capex_pct = defaults.get("capex_pct", 2.0)
         l_wc_change_pct = defaults.get("wc_change_pct", 2.0)
         l_interest_pct = defaults.get("interest_pct", 10.0)
-        l_growth_terminal = defaults.get("user_growth_rate_yr_6_onwards", 4.0)
+        l_growth_terminal = defaults.get("growth_terminal", 4.0)
         l_period_x = defaults.get("l_period_x", 5.0)
         l_period_y = defaults.get("l_period_y", 15.0)
         l_growth_x = defaults.get("l_growth_x", 20.0)
