@@ -17,7 +17,10 @@ def render_dcf_tab():
             st.error("Initial assumptions not found. Please upload data from the Inputs tab.")
             return
         # Load assumptions from initial assumptions (not session_state)
-        defaults = st.session_state["initial_assumptions"]
+        defaults = st.session_state.get("initial_assumptions")
+        if not isinstance(defaults, dict):
+            st.error("Initial assumptions are not properly loaded. Please re-import the data.")
+            return
         l_ebit_margin = defaults.get("ebit_margin", 20.0)
         l_depreciation_pct = defaults.get("depreciation_pct", 5.0)
         l_tax_rate = defaults.get("tax_rate", 25.0)
