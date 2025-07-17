@@ -96,7 +96,7 @@ def render_dcf_tab():
         net_debt = st.session_state["net_debt"]
         
 
-        fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = calculate_dcf(
+        fcf_data, fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal, enterprise_value, equity_value = calculate_dcf(
             base_revenue=base_revenue,
             ebit_margin=ebit_margin,
             depreciation_pct=depreciation_pct,
@@ -120,8 +120,6 @@ def render_dcf_tab():
                 "CapEx": "{:.2f}", "Change in WC": "{:.2f}", "Free Cash Flow": "{:.2f}", "PV of FCF": "{:.2f}"
             }))
 
-        # Removed duplicate dcf_fair_value call to avoid redundant calculation
-
         st.metric("Fair Value per Share", f"₹{fv:,.2f}")
         with st.expander("📢 Disclaimer"):
             render_disclaimer()
@@ -133,22 +131,6 @@ def render_dcf_tab():
             render_final_verdict(fair_value=fv, current_price=current_price)
         
         with st.expander("📘 How Fair Value is Calculated"):
-            fv, terminal_weight, phase1_pv, phase2_pv, pv_terminal = dcf_fair_value(
-                base_revenue=base_revenue,
-                ebit_margin=ebit_margin,
-                depreciation_pct=depreciation_pct,
-                capex_pct=capex_pct,
-                wc_change_pct=wc_change_pct,
-                tax_rate=tax_rate,
-                interest_pct=interest_pct,
-                shares=shares,
-                x_years=x_years,
-                y_years=y_years,
-                growth_rate_x=growth_x,
-                growth_rate_y=growth_y,
-                terminal_growth=terminal_growth,
-                net_debt=net_debt
-            )
             st.markdown(f"""
             **Fair Value per Share Calculation**
 
@@ -156,11 +138,11 @@ def render_dcf_tab():
             - Phase 1 (Years 1–{x_years}) PV: ₹{phase1_pv:,.2f}
             - Phase 2 (Years {x_years+1}–{y_years}) PV: ₹{phase2_pv:,.2f}
             - Terminal Value PV: ₹{pv_terminal:,.2f}  
-              → Contributes **{terminal_weight:.1f}%** of total Enterprise Value
+              → Contributes **{terminal_weight:.1f}%** of total Equity  Value
 
-            **Enterprise Value = PV of All FCFs + Terminal Value**
-            - EV = ₹{phase1_pv + phase2_pv:,.2f} + ₹{pv_terminal:,.2f} = ₹{phase1_pv + phase2_pv + pv_terminal:,.2f}
-
-            **Fair Value/Share = EV ÷ Shares Outstanding ({shares:.2f} Cr)**
+            - Enterprise Value (Phase1 + Phase2 + Terminal Value) : ₹{enterprise_value:,.2f}
+            - Equity Value (Enterprise Value - Net Debt) : ₹{equity_value:,.2f}
+            
+            **Fair Value/Share = Equity Value ÷ Shares Outstanding ({shares:.2f} Cr)**
             - Fair Value/Share = ₹{fv:,.2f}
             """)
